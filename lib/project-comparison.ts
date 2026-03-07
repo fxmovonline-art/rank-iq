@@ -100,7 +100,8 @@ export async function getProjectComparisonData(
 
   const userSite = normalizeSignals(latestResultSignals, project.domain);
 
-  const competitors = project.competitors.map((competitor) => {
+  const competitors = project.competitors.map(
+    (competitor: (typeof project.competitors)[number]) => {
     const signal = competitor.signals[0];
     return normalizeSignals(
       {
@@ -112,16 +113,19 @@ export async function getProjectComparisonData(
       },
       competitor.url
     );
-  });
+    }
+  );
 
   const validCompetitorWordCounts = competitors
-    .map((item) => item.wordCount)
-    .filter((count) => count > 0);
+    .map((item: (typeof competitors)[number]) => item.wordCount)
+    .filter((count: number) => count > 0);
 
   const competitorAverageWordCount = validCompetitorWordCounts.length
     ? Math.round(
-        validCompetitorWordCounts.reduce((sum, count) => sum + count, 0) /
-          validCompetitorWordCounts.length
+        validCompetitorWordCounts.reduce(
+          (sum: number, count: number) => sum + count,
+          0
+        ) / validCompetitorWordCounts.length
       )
     : 0;
 

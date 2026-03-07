@@ -1,6 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import * as PrismaClientPackage from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
+
+const PrismaClient = (PrismaClientPackage as { PrismaClient: new (args: unknown) => any }).PrismaClient;
 
 const prismaClientSingleton = () => {
   // Create PostgreSQL connection pool
