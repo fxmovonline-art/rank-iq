@@ -81,7 +81,7 @@ export default async function AnalysisPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {analysisResults.map((result) => (
+            {analysisResults.map((result: (typeof analysisResults)[number]) => (
               <article
                 key={result.id}
                 className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all overflow-hidden"
