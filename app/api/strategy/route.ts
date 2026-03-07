@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import type { Prisma } from "@prisma/client";
 
 type StrategyFormData = {
   projectId: string;
@@ -20,19 +19,18 @@ type StrategyResponse = {
   };
 };
 
-type StrategyWithProject = Prisma.StrategyGetPayload<{
-  include: {
-    project: {
-      select: {
-        id: true;
-        name: true;
-        domain: true;
-        niche: true;
-        targetCity: true;
-      };
-    };
+type StrategyWithProject = {
+  id: string;
+  content: string;
+  createdAt: Date;
+  project: {
+    id: string;
+    name: string;
+    domain: string;
+    niche: string;
+    targetCity: string;
   };
-}>;
+};
 
 function parseStoredStrategyContent(
   rawContent: string,
