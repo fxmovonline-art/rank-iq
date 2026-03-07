@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import type { Prisma } from "@prisma/client";
 
 type StrategyFormData = {
   projectId: string;
@@ -18,6 +19,20 @@ type StrategyResponse = {
     targetCity: string;
   };
 };
+
+type StrategyWithProject = Prisma.StrategyGetPayload<{
+  include: {
+    project: {
+      select: {
+        id: true;
+        name: true;
+        domain: true;
+        niche: true;
+        targetCity: true;
+      };
+    };
+  };
+}>;
 
 function parseStoredStrategyContent(
   rawContent: string,
@@ -91,7 +106,7 @@ export async function GET() {
       take: 20,
     });
 
-    const serialized = strategies.map((item) => {
+    const serialized = strategies.map((item: StrategyWithProject) => {
       const parsed = parseStoredStrategyContent(item.content, {
         name: item.project.name,
         domain: item.project.domain,
