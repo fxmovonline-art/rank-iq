@@ -19,6 +19,15 @@ interface DashboardSidebarProps {
 export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarProps) {
   const pathname = usePathname();
 
+  const isProjectsPath = (path: string) => path.startsWith("/dashboard/project/");
+
+  const isLinkActive = (href: string) => {
+    if (href === "/dashboard/projects") {
+      return pathname === href || isProjectsPath(pathname);
+    }
+    return pathname === href;
+  };
+
   return (
     <>
       {/* Mobile overlay backdrop */}
@@ -66,18 +75,18 @@ export default function DashboardSidebar({ isOpen, onClose }: DashboardSidebarPr
 
         {/* Navigation */}
         <div className="flex-1 flex flex-col overflow-y-auto">
-          <nav className="flex-1 space-y-1 px-4 py-6">
+          <nav className="flex-1 space-y-1 px-4 lg:px-6 py-6">
             {navigation.map((item) => {
-              const isActive = pathname === item.href;
+              const isActive = isLinkActive(item.href);
               return (
                 <Link
                   key={item.name}
                   href={item.href}
                   onClick={onClose}
-                  className={`group flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-all ${
+                  className={`group flex items-center px-4 py-3 text-sm rounded-lg transition-all ${
                     isActive
-                      ? "bg-slate-100 text-indigo-700"
-                      : "text-slate-700 hover:bg-gray-50 hover:text-slate-900"
+                      ? "bg-indigo-50 text-indigo-700 border-r-4 border-indigo-600 font-semibold"
+                      : "text-slate-600 hover:bg-slate-50"
                   }`}
                 >
                   <item.icon

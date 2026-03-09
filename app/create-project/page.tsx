@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Globe, MapPin, Briefcase, Link as LinkIcon, Plus, X } from "lucide-react";
+import { Globe, MapPin, Briefcase, Link as LinkIcon, Plus, X, Loader2 } from "lucide-react";
 
 const CITIES = ["Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Multan", "Peshawar", "Quetta"];
 const NICHES = [
@@ -22,7 +22,7 @@ const NICHES = [
 
 export default function CreateProjectPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
@@ -53,7 +53,7 @@ export default function CreateProjectPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       // Validate required fields
@@ -110,7 +110,7 @@ export default function CreateProjectPage() {
     } catch (err: any) {
       setError(err.message || "An error occurred");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -254,12 +254,14 @@ export default function CreateProjectPage() {
             <div className="pt-4">
               <button
                 type="submit"
-                disabled={loading || success}
+                disabled={isLoading || success}
                 className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white font-semibold rounded-lg shadow-md transition-all flex items-center justify-center gap-2"
               >
-                {loading ? (
+                {isLoading ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span className="inline-flex h-5 w-5 items-center justify-center">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    </span>
                     Analyzing...
                   </>
                 ) : success ? (

@@ -420,17 +420,10 @@ export default function StrategiesPage() {
                   disabled={loading}
                   className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-4 text-base font-semibold text-white hover:bg-indigo-700 transition-all shadow-md hover:shadow-lg disabled:bg-indigo-400 disabled:cursor-not-allowed"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                      Generating Strategy...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="h-5 w-5" />
-                      Generate Strategy
-                    </>
-                  )}
+                  <span className="inline-flex h-5 w-5 items-center justify-center">
+                    {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
+                  </span>
+                  <span>{loading ? "Generating Strategy..." : "Generate Strategy"}</span>
                 </button>
               </form>
             </div>

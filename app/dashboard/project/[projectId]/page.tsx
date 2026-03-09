@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import { Bot, Sparkles, TriangleAlert, CheckCircle2, AlertCircle, Loader } from "lucide-react";
+import { Bot, Sparkles, TriangleAlert, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import PdfExportButton from "@/components/PdfExportButton";
 
 type ComparisonSignals = {
@@ -328,26 +328,21 @@ export default function ProjectComparisonDashboardPage() {
               type="button"
               onClick={handleGetRecommendations}
               disabled={aiLoading}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60 transition-all"
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed transition-all min-w-[230px] justify-center"
             >
-              {aiLoading ? (
-                <>
-                  <Loader className="h-4 w-4 animate-spin" />
-                  Generating Insights...
-                </>
-              ) : (
-                <>
-                  <Bot className="h-4 w-4" />
-                  Get AI Recommendations
-                </>
-              )}
+              <span className="inline-flex h-4 w-4 items-center justify-center">
+                {aiLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Bot className="h-4 w-4" />}
+              </span>
+              <span>
+                {aiLoading ? "Generating Insights..." : "Get AI Recommendations"}
+              </span>
             </button>
           </div>
 
           {aiLoading && !aiRecommendations && (
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-8 flex flex-col items-center justify-center gap-4">
               <div className="flex items-center justify-center h-12 w-12 rounded-full bg-slate-200 animate-pulse">
-                <Loader className="h-6 w-6 text-slate-600 animate-spin" />
+                <Loader2 className="h-6 w-6 text-slate-600 animate-spin" />
               </div>
               <div className="text-center">
                 <p className="text-sm font-semibold text-slate-900">Generating AI Recommendations</p>
