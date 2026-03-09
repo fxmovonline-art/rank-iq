@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, BarChart2, CheckSquare, Settings } from "lucide-react";
+import { Home, BarChart2, CheckSquare, Settings, Lightbulb } from "lucide-react";
 
 const navigation = [
   { name: "Overview", href: "/dashboard", icon: Home },
   { name: "Projects", href: "/dashboard/projects", icon: CheckSquare },
   { name: "Analysis", href: "/dashboard/analysis", icon: BarChart2 },
-  { name: "Strategies", href: "/dashboard/strategies", icon: Settings },
+  { name: "Strategies", href: "/dashboard/strategies", icon: Lightbulb },
 ];
 
 export default function DashboardSidebar() {
