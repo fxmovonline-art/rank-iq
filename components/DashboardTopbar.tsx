@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Bell, ChevronDown, Search, LogOut, User } from "lucide-react";
+import { Bell, ChevronDown, Search, LogOut, User, Menu, Plus } from "lucide-react";
 import { signOut } from "next-auth/react";
 
-export default function DashboardTopbar() {
+interface DashboardTopbarProps {
+  onMenuClick: () => void;
+}
+
+export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const notificationsRef = useRef<HTMLDivElement | null>(null);
@@ -30,8 +34,17 @@ export default function DashboardTopbar() {
 
   return (
     <header className="sticky top-0 z-10 flex h-16 shrink-0 bg-white border-b border-slate-200">
-      <div className="flex flex-1 items-center justify-between px-6 lg:px-8">
-        <div className="flex flex-1">
+      <div className="flex flex-1 items-center justify-between px-4 lg:px-8">
+        {/* Mobile hamburger menu */}
+        <button
+          onClick={onMenuClick}
+          className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu className="h-6 w-6 text-gray-700" />
+        </button>
+
+        <div className="flex flex-1 lg:ml-0 ml-2">
           <div className="w-full max-w-lg lg:max-w-xs relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
               <Search className="h-5 w-5 text-slate-400" />
@@ -43,7 +56,16 @@ export default function DashboardTopbar() {
             />
           </div>
         </div>
-        <div className="ml-4 flex items-center gap-4 lg:ml-6">
+        <div className="ml-4 flex items-center gap-3 lg:ml-6">
+          {/* New Project Button */}
+          <Link
+            href="/dashboard/projects/create"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-all shadow-sm"
+          >
+            <Plus className="w-4 h-4" />
+            <span className="hidden md:inline font-medium">New Project</span>
+          </Link>
+
           <div className="relative" ref={notificationsRef}>
             <button
               type="button"
