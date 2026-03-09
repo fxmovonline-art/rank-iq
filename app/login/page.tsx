@@ -2,19 +2,25 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { LogIn, Key, Mail } from "lucide-react";
+import { LogIn, Key, Mail, Loader2 } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signIn("credentials", {
-      email,
-      password,
-      callbackUrl: "/dashboard",
-    });
+    setIsLoading(true);
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        callbackUrl: "/dashboard",
+      });
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -118,10 +124,15 @@ export default function LoginPage() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all items-center gap-2"
+                disabled={isLoading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-indigo-600"
               >
-                <LogIn className="w-5 h-5" />
-                Sign in
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <LogIn className="w-5 h-5" />
+                )}
+                {isLoading ? "Logging in..." : "Sign in"}
               </button>
             </div>
             <div className="pt-2">

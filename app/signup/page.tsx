@@ -2,30 +2,38 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock, Loader2 } from "lucide-react";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
     
-    const res = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
-    });
+    try {
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
 
-    if (res.ok) {
-      router.push("/login");
-    } else {
-      const text = await res.text();
-      setError(text || "Signup failed. Please try again.");
+      if (res.ok) {
+        router.push("/login");
+      } else {
+        const text = await res.text();
+        setError(text || "Signup failed. Please try again.");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+      setIsLoading(false);
     }
   };
 
@@ -113,9 +121,11 @@ export default function SignupPage() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all"
+                disabled={isLoading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-indigo-600"
               >
-                Create account
+                {isLoading && <Loader2 className="w-5 h-5 animate-spin" />}
+                {isLoading ? "Please wait..." : "Create account"}
               </button>
             </div>
 

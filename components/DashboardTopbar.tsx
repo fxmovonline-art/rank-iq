@@ -59,7 +59,7 @@ export default function DashboardTopbar({ onMenuClick }: DashboardTopbarProps) {
         <div className="ml-4 flex items-center gap-3 lg:ml-6">
           {/* New Project Button */}
           <Link
-            href="/dashboard/projects/create"
+            href="/create-project"
             className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-all shadow-sm"
           >
             <Plus className="w-4 h-4" />
